@@ -1,15 +1,12 @@
-import { system, name, commerce, lorem, datatype, locale, address, } from "faker";
+import { system, name, commerce, lorem, datatype, address, } from "faker";
 import { OfferType } from "../types/offer";
+import { CityLocation } from "../const";
 
 
 export const makeFakeOfferCard = (): OfferType => ({
     city: {
         name: 'Paris',
-        location: {
-            longitude: datatype.number(),
-            latitude: datatype.number(),
-            zoom: datatype.number({ min: 1, max: 10 }),
-        },
+        location: CityLocation.Paris,
     },
     previewImage: system.filePath(),
     images: new Array(3).fill(null).map(() =>
