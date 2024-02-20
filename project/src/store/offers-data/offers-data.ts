@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { StoreSlice } from '../../const';
 import { fetchOffers } from '../action';
 import { OffersDataState } from '../../types/state';
+import { FavoriteAuth } from '../../types/offer';
 
 const initialState: OffersDataState = {
   isOffersDataLoading: false,
@@ -11,7 +12,19 @@ const initialState: OffersDataState = {
 export const offersDataSlice = createSlice({
   name: StoreSlice.OffersData,
   initialState,
-  reducers: {},
+  reducers: {
+    updateFavoriteOffer: (state, action: PayloadAction<FavoriteAuth>) => {
+      const currentOfferIndex = state.offers.findIndex(
+        (offer) => offer.id === action.payload.id
+      );
+
+      if (currentOfferIndex !== -1) {
+        state.offers[currentOfferIndex].isFavorite = Boolean(
+          action.payload.status
+        );
+      }
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchOffers.fulfilled, (state, action) => {
@@ -26,3 +39,5 @@ export const offersDataSlice = createSlice({
       });
   }
 });
+
+export const { updateFavoriteOffer } = offersDataSlice.actions;

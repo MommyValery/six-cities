@@ -26,7 +26,6 @@ export const Action = {
   POST_FAVORITE: 'offfer/post-favorite',
 };
 
-//export const setCity = createAction<CityName>(Action.SET_CITY);
 export const requireAuth = createAction<AuthorizationStatus>(Action.REQUIRE_AUTH);
 
 
@@ -48,10 +47,10 @@ export const fetchFavoriteOffersAction = createAsyncThunk<OfferType[], undefined
 }
 >(
   Action.FETCH_FAVORITE,
-  async (_, { extra: api }) => {
-    const {data} = await api.get <OfferType[]>(APIRoute.FavoriteOffers);
+  async (_arg, { extra: fetchData }) => {
+    const { data } = await fetchData.get<OfferType[]>(APIRoute.FavoriteOffers);
     return data;
-  },
+  }
 );
 
 export const postFavoriteOfferAction = createAsyncThunk<OfferType, FavoriteAuth, {
@@ -61,10 +60,11 @@ export const postFavoriteOfferAction = createAsyncThunk<OfferType, FavoriteAuth,
     history: History;
 }>(
   Action.POST_FAVORITE,
-  async ({id, status}, { dispatch, extra : api}) => {
+  async ({ id, status }, { extra: fetchData }) => {
     try {
-      const { data } = await api.post<OfferType>(`${APIRoute.FavoriteOffers}/${id}/${status}`);
-      dispatch(fetchFavoriteOffersAction());
+      const { data } = await fetchData.post<OfferType>(
+        `${APIRoute.FavoriteOffers}/${id}/${status}`
+      );
       return data;
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -73,8 +73,7 @@ export const postFavoriteOfferAction = createAsyncThunk<OfferType, FavoriteAuth,
       }
       return Promise.reject(error);
     }
-  }
-);
+  });
 
 
 export const fetchOffer = createAsyncThunk<OfferType, OfferType['id'], {

@@ -39,4 +39,5 @@ export type OfferType = {
   id: number;
 };
 
-export type FavoriteAuth = Pick<OfferType, 'id'> & { status: 1 | 0 };
+export type FavoriteAuth = Pick<OfferType, 'id'> & { status: number };
+

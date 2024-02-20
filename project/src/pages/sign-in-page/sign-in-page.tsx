@@ -64,12 +64,6 @@ function SignIn(): JSX.Element {
                       required
                     />
                   </div>
-                  <button
-                    className="login__submit form__submit button"
-                    type="submit"
-                  >
-                      Sign in
-                  </button>
                 </form>
               </section>
               <section className="locations locations--login locations--current">

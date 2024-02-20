@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../types/offer';
 import { formateRating } from '../../utils/utils';
-import { memo, useState } from 'react';
-import { postFavoriteOfferAction } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
+import { memo } from 'react';
+import { FavoriteButton } from '../favorite-button/favorite-button';
 
 type OfferCardType = OfferType
   & {
@@ -29,13 +28,6 @@ function OfferCard({ id, isFavorite,
   const handleMouseMove = () => {
     onMouseMove(id);
   };
-  const [isFavoriteOffer, setFavoriteOffer] = useState <boolean| null> (isFavorite ? isFavorite : null);
-  const dispatch = useAppDispatch();
-
-  const handleFavoriteButtonClick = () => {
-    setFavoriteOffer((prevState) => !prevState);
-    dispatch(postFavoriteOfferAction({id, status: isFavorite ? 0 : 1}));
-  };
 
   return (
     <article className={`${place}__place-card place-card`}
@@ -57,12 +49,7 @@ function OfferCard({ id, isFavorite,
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={`place-card__bookmark-button ${isFavoriteOffer ? 'place-card__bookmark-button--active' : ''} button`} onClick={handleFavoriteButtonClick} type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <FavoriteButton place={'place-card'} isFavoriteOffer={isFavorite} id={id}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -79,4 +66,4 @@ function OfferCard({ id, isFavorite,
   );
 }
 
-export default memo(OfferCard, (prevProps, nextProps) => prevProps.isFavorite === nextProps.isFavorite);
+export default memo(OfferCard);

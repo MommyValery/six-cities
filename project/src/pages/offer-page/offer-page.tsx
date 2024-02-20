@@ -4,14 +4,15 @@ import OfferCard from '../../components/offer-card/offer-card';
 import Spinner from '../../components/spinner/spinner';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchNearbyOffers, fetchOffer, fetchReviews, postComment, postFavoriteOfferAction } from '../../store/action';
+import { fetchNearbyOffers, fetchOffer, fetchReviews, postComment } from '../../store/action';
 import { formateRating } from '../../utils/utils';
 import { CommentAuth } from '../../types/reviews';
 import { getComments, getIsOfferLoading, getNearbyOffers, getOffer } from '../../store/current-offer-data/selectors';
 import { getAuthStatus } from '../../store/auth-user-process/selectors';
 import { getCity } from '../../store/page-events/selectors';
+import { FavoriteButton } from '../../components/favorite-button/favorite-button';
 
 
 function OfferPage(): JSX.Element | null {
@@ -23,15 +24,10 @@ function OfferPage(): JSX.Element | null {
   const city = useAppSelector(getCity);
   const authStatus = useAppSelector(getAuthStatus);
   const comments = useAppSelector(getComments);
-  const [isFavoriteOffer, setFavoriteOffer] = useState <boolean| null> (offer?.isFavorite ? offer.isFavorite : null);
   const onSubmitForm = (formData: Omit<CommentAuth, 'id'>) => {
     dispatch(postComment({ id, ...formData }));
   };
 
-  const handleFavoriteButtonClick = () => {
-    setFavoriteOffer((prevState) => !prevState);
-    dispatch(postFavoriteOfferAction({id, status: isFavoriteOffer ? 0 : 1}));
-  };
 
   useEffect(() => {
     const {id} = params;
@@ -51,7 +47,7 @@ function OfferPage(): JSX.Element | null {
     return <Spinner/>;
   }
 
-  const { images, isPremium, title, id, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
+  const { images, isPremium, isFavorite, title, id, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
   const locations = [offer, ...nearbyOffers];
   return (
 
@@ -79,13 +75,7 @@ function OfferPage(): JSX.Element | null {
               }
               <div className="property__name-wrapper">
                 <h1 className="property__name"> {title}</h1>
-                <button className={`property__bookmark-button button ${isFavoriteOffer ? 'property__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteButtonClick}>
-                  <svg className="property__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
-
+                <FavoriteButton isFavoriteOffer={isFavorite} place={'property'} id={id} />
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

@@ -22,8 +22,7 @@ export type AuthUserProcessState = {
 export type FavoriteOffersDataState = {
     favoriteOffers: OfferType[];
     isFavoriteOffersDataLoading: boolean;
-    offers: OfferType[];
-    offer: OfferType | null;
+
 }
 
 export type ProcessSliceState = {
