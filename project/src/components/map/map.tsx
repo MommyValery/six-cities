@@ -16,7 +16,7 @@ type MapProps = {
 };
 
 function MapComponent({city, items, activeItem, place = 'cities'}: MapProps): JSX.Element {
-  const mapRef = useRef(null);
+  const mapRef = useRef<HTMLDivElement | null> (null);
   const map = useMap(mapRef, city);
 
   const defaultCustomIcon = leaflet.icon({

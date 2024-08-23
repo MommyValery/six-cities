@@ -1,11 +1,14 @@
 {
   "name": "project",
   "version": "0.1.0",
+  "homepage": "https://mommyvalery.github.io/six-cities",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "axios": "^0.27.2",
+    "gh-pages": "^6.1.1",
     "history": "^5.3.0",
+    "leaflet": "1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
@@ -17,7 +20,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .tsx --ext .ts src/"
+    "lint": "eslint --ext .tsx --ext .ts src/",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -66,6 +70,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/faker": "^5.5.8",
     "@types/jest": "^29.1.2",
+    "@types/leaflet": "^1.9.12",
     "@types/node": "^16.11.7",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
